@@ -6,21 +6,26 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Connect4 c4game = new Connect4();
-        System.out.println(c4game);
         Connect4.setHFunction(new Connect4Heuristic());
+        Connect4 c4game = Connect4.createGame();
 
-//        System.out.println(c4game.isMaximizingTurnNow());
+        if(c4game.isMaximizingTurnNow()) {
+            System.out.println(c4game);
+        }
+
         GameSearchAlgorithm gsa = new AlphaBetaPruning();
         gsa.setInitial(c4game);
 
         while(!c4game.checkWin()) {
             if(c4game.isMaximizingTurnNow()) {
-                System.out.println("Your turn: ");
                 Scanner scanner = new Scanner(System.in);
-                int column = scanner.nextInt();
-                c4game.makeMove(column);
-//                System.out.println(c4game);
+                int column;
+                do {
+                    System.out.print("Your turn: ");
+                    column = scanner.nextInt();
+                }while(!c4game.makeMove(column));
+
+                System.out.println(c4game);
             } else {
                 System.out.println("AI turn");
                 gsa.execute();
@@ -30,13 +35,11 @@ public class Main {
                 String s = gsa.getFirstBestMove();
                 int aiMove = Integer.parseInt(s);
                 c4game.makeMove(aiMove);
-//                while(!c4game.makeMove((int)(Math.random() * 6))) {
-//                    continue;
-//                }
                 System.out.println(c4game);
             }
         }
 
         System.out.println("Game over\nThe winner is: " + (c4game.isMaximizingTurnNow() ? "AI" : "Player"));
+        System.out.println(c4game);
     }
 }

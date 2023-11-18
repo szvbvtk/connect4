@@ -3,6 +3,7 @@ import sac.game.GameStateImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Connect4 extends GameStateImpl {
     static public final int numberOfRows = 7;
@@ -25,8 +26,14 @@ public class Connect4 extends GameStateImpl {
         }
     }
 
-    public Connect4() {
-//maximizingTurnNow = false;
+    public Connect4(char token) {
+
+        if(token == Tokens.PLAYER.getToken()) {
+            this.maximizingTurnNow = true;
+        } else if(token == Tokens.AI_PLAYER.getToken()) {
+            this.maximizingTurnNow = false;
+        }
+
         this.board = new char[numberOfRows][numberOfColumns];
 
         for(int i = 0; i < numberOfRows; i++) {
@@ -45,9 +52,21 @@ public class Connect4 extends GameStateImpl {
         }
     }
 
+    public static Connect4 createGame() {
+        System.out.print("Choose starting player: O - Player, X - AI: ");
+        Scanner scanner = new Scanner(System.in);
+        char token = scanner.next().charAt(0);
+        if(token == 'X' || token == 'x') {
+            return new Connect4(Tokens.AI_PLAYER.getToken());
+        }
+        return new Connect4(Tokens.PLAYER.getToken());
+    }
 
-    // na razie boolean, byc moze zbedne, wtedy zmienic na void
     public boolean makeMove(int columnIndex) {
+        if(columnIndex < 0 || columnIndex >= numberOfColumns) {
+            return false;
+        }
+
         int row = numberOfRows - 1;
         while(row >= 0 && board[row][columnIndex] != Tokens.EMPTY.getToken()) {
             row--;
@@ -69,7 +88,6 @@ public class Connect4 extends GameStateImpl {
         for(int columnIndex = 0; columnIndex < numberOfColumns; columnIndex++) {
             Connect4 child = new Connect4(this);
             if(child.makeMove(columnIndex)) {
-//                child.setMoveName("col" + columnIndex);
                 child.setMoveName(String.valueOf(columnIndex));
                 children.add(child);
             }
@@ -79,7 +97,7 @@ public class Connect4 extends GameStateImpl {
     }
 
     public boolean checkWin() {
-        return checkHorizontal() || checkVertical() || checkDiagonal();
+        return checkHorizontal() || checkVertical(); // dodac diagonal
     }
     
     public boolean checkHorizontal() {
@@ -179,9 +197,22 @@ public class Connect4 extends GameStateImpl {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < numberOfRows; i++) {
+            if(i == 0) {
+                sb.append("  ");
+                for(int j = 0; j < numberOfColumns; j++) {
+                    sb.append(String.valueOf(j)).append("   ");
+                }
+                sb.append("\n");
+            }
             sb.append("| ");
             for(int j = 0; j < numberOfColumns; j++) {
-                sb.append(board[i][j]).append(" | ");
+
+                if(board[i][j] == Tokens.EMPTY.getToken())
+                    sb.append(board[i][j]).append(" | ");
+                else if(board[i][j] == Tokens.PLAYER.getToken())
+                    sb.append("\u001B[32m").append(board[i][j]).append("\u001B[0m | ");
+                else if(board[i][j] == Tokens.AI_PLAYER.getToken())
+                    sb.append("\u001B[31m").append(board[i][j]).append("\u001B[0m | ");
             }
             sb.append("\n");
         }
