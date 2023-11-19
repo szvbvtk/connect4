@@ -150,36 +150,36 @@ public class Connect4Heuristic extends StateFunction {
         }
 
         // Sprawdzanie w pionie
-        for (int i = 0; i <= Connect4.numberOfRows - length; i++) {
-            for (int j = 0; j < Connect4.numberOfColumns; j++) {
-                boolean isMatch = true;
-                for (int k = 0; k < length; k++) {
-                    if (c4game.board[i + k][j] != playerToken.getToken()) {
-                        isMatch = false;
-                        break;
-                    }
-                }
-                if (isMatch) {
-                    count++;
-                }
-            }
-        }
+//        for (int i = 0; i <= Connect4.numberOfRows - length; i++) {
+//            for (int j = 0; j < Connect4.numberOfColumns; j++) {
+//                boolean isMatch = true;
+//                for (int k = 0; k < length; k++) {
+//                    if (c4game.board[i + k][j] != playerToken.getToken()) {
+//                        isMatch = false;
+//                        break;
+//                    }
+//                }
+//                if (isMatch) {
+//                    count++;
+//                }
+//            }
+//        }
 
         // Sprawdzanie na ukos
-        for (int i = 0; i <= Connect4.numberOfRows - length; i++) {
-            for (int j = 0; j <= Connect4.numberOfColumns - length; j++) {
-                boolean isMatch = true;
-                for (int k = 0; k < length; k++) {
-                    if (c4game.board[i + k][j + k] != playerToken.getToken()) {
-                        isMatch = false;
-                        break;
-                    }
-                }
-                if (isMatch) {
-                    count++;
-                }
-            }
-        }
+//        for (int i = 0; i <= Connect4.numberOfRows - length; i++) {
+//            for (int j = 0; j <= Connect4.numberOfColumns - length; j++) {
+//                boolean isMatch = true;
+//                for (int k = 0; k < length; k++) {
+//                    if (c4game.board[i + k][j + k] != playerToken.getToken()) {
+//                        isMatch = false;
+//                        break;
+//                    }
+//                }
+//                if (isMatch) {
+//                    count++;
+//                }
+//            }
+//        }
 
         // Sprawdzanie na ukos (odwrotnie)
         for (int i = length - 1; i < Connect4.numberOfRows; i++) {

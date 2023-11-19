@@ -101,26 +101,28 @@ public class Connect4 extends GameStateImpl {
     }
     
     public boolean checkHorizontal() {
-        int counterPlayer = 0;
-        int counterAI = 0;
-
         for(int i = 0; i < Connect4.numberOfRows; i++) {
+            int counterPlayer = 0;
+            int counterAI = 0;
             for(int j = 0; j < Connect4.numberOfColumns; j++) {
                 if(this.board[i][j] == Connect4.Tokens.PLAYER.getToken()) {
                     counterPlayer++;
+                    counterAI = 0;
+                } else if(this.board[i][j] == Connect4.Tokens.AI_PLAYER.getToken()) {
+                    counterAI++;
+                    counterPlayer = 0;
                 } else {
                     counterPlayer = 0;
-                }
-
-                if(this.board[i][j] == Connect4.Tokens.AI_PLAYER.getToken()) {
-                    counterAI++;
-                } else {
                     counterAI = 0;
                 }
 
+
+
                 if(counterPlayer == 4) {
+                    System.out.println("horizontal");
                     return true;
                 } else if (counterAI == 4) {
+                    System.out.println("horizontal ai");
                     return true;
                 }
             }
@@ -136,19 +138,20 @@ public class Connect4 extends GameStateImpl {
             for(int j = 0; j < Connect4.numberOfRows; j++) {
                 if(this.board[j][i] == Connect4.Tokens.PLAYER.getToken()) {
                     counterPlayer++;
+                    counterAI = 0;
+                } else if(this.board[j][i] == Connect4.Tokens.AI_PLAYER.getToken()) {
+                    counterAI++;
+                    counterPlayer = 0;
                 } else {
                     counterPlayer = 0;
-                }
-
-                if(this.board[j][i] == Connect4.Tokens.AI_PLAYER.getToken()) {
-                    counterAI++;
-                } else {
                     counterAI = 0;
                 }
 
                 if(counterPlayer == 4) {
+                    System.out.println("vertical");
                     return true;
                 } else if (counterAI == 4) {
+                    System.out.println("vertical ai");
                     return true;
                 }
             }
