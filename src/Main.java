@@ -16,7 +16,7 @@ public class Main {
         GameSearchAlgorithm gsa = new AlphaBetaPruning();
         gsa.setInitial(c4game);
 
-        while(!c4game.checkWin()) {
+        while(c4game.checkGameResult() == 0) {
             if(c4game.isMaximizingTurnNow()) {
                 Scanner scanner = new Scanner(System.in);
                 int column;
