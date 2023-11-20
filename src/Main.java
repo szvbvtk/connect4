@@ -39,7 +39,12 @@ public class Main {
             }
         }
 
-        System.out.println("Game over\nThe winner is: " + (c4game.isMaximizingTurnNow() ? "AI" : "Player"));
+        if(!c4game.isBoardFull()){
+            System.out.println("Game over\nThe winner is: " + (c4game.isMaximizingTurnNow() ? "AI" : "Player"));
+        } else {
+            System.out.println("Game over\nDraw");
+        }
+
         System.out.println(c4game);
     }
 }
