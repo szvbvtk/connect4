@@ -5,14 +5,6 @@ public class Connect4Heuristic extends StateFunction {
     @Override
     public double calculate(State state) {
         Connect4 c4game = (Connect4) state;
-//        System.out.println("sskk");
-        double score = 0;
-
-//        double horizontalScore = checkHorizontal(c4game);
-//        double verticalScore = checkVertical(c4game);
-//        double diagonalScore = checkDiagonal(c4game);
-//
-//        score = horizontalScore + verticalScore + diagonalScore;
 
         if (c4game.checkGameResult() != 0 && !c4game.isMaximizingTurnNow()) { // być może trzeba zamienić ze sobą dwa returny
             return Double.POSITIVE_INFINITY;
@@ -27,8 +19,7 @@ public class Connect4Heuristic extends StateFunction {
         double playerOneInARow = c4game.countTokensInARow(Connect4.Tokens.PLAYER, 1, false);
         double aiOneInARow = c4game.countTokensInARow(Connect4.Tokens.AI_PLAYER, 1, false);
 
-        score =  -((aiThreeInARow * 100) - (playerThreeInARow * 100) + (aiTwoInARow * 10) - (playerTwoInARow * 10) + (aiOneInARow) - (playerOneInARow));
-        return score;
+        return -((aiThreeInARow * 100) - (playerThreeInARow * 100) + (aiTwoInARow * 10) - (playerTwoInARow * 10) + (aiOneInARow) - (playerOneInARow));
     }
 
 

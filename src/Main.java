@@ -15,8 +15,8 @@ public class Main {
 
         GameSearchAlgorithm gsa = new AlphaBetaPruning();
         gsa.setInitial(c4game);
-
-        while(c4game.checkGameResult() == 0) {
+        int gameResult;
+        while( (gameResult = c4game.checkGameResult()) == 0) {
             if(c4game.isMaximizingTurnNow()) {
                 Scanner scanner = new Scanner(System.in);
                 int column;
@@ -39,8 +39,10 @@ public class Main {
             }
         }
 
-        if(!c4game.isBoardFull()){
-            System.out.println("Game over\nThe winner is: " + (c4game.isMaximizingTurnNow() ? "AI" : "Player"));
+        if(gameResult == 1) {
+            System.out.println("Game over\nThe winner is: " + "Player");
+        }else if(gameResult == -1) {
+            System.out.println("Game over\nThe winner is: " + "AI");
         } else {
             System.out.println("Game over\nDraw");
         }

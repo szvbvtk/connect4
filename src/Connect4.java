@@ -118,109 +118,13 @@ public class Connect4 extends GameStateImpl {
         return true;
     }
 
-    public boolean checkHorizontal() {
-        for (int i = 0; i < Connect4.numberOfRows; i++) {
-            int counterPlayer = 0;
-            int counterAI = 0;
-            for (int j = 0; j < Connect4.numberOfColumns; j++) {
-                if (this.board[i][j] == Connect4.Tokens.PLAYER.getToken()) {
-                    counterPlayer++;
-                    counterAI = 0;
-                } else if (this.board[i][j] == Connect4.Tokens.AI_PLAYER.getToken()) {
-                    counterAI++;
-                    counterPlayer = 0;
-                } else {
-                    counterPlayer = 0;
-                    counterAI = 0;
-                }
-
-
-                if (counterPlayer == 4) {
-//                    System.out.println("horizontal");
-                    return true;
-                } else if (counterAI == 4) {
-//                    System.out.println("horizontal ai");
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public boolean checkVertical() {
-
-        for (int i = 0; i < Connect4.numberOfColumns; i++) {
-            int counterPlayer = 0;
-            int counterAI = 0;
-            for (int j = 0; j < Connect4.numberOfRows; j++) {
-                if (this.board[j][i] == Connect4.Tokens.PLAYER.getToken()) {
-                    counterPlayer++;
-                    counterAI = 0;
-                } else if (this.board[j][i] == Connect4.Tokens.AI_PLAYER.getToken()) {
-                    counterAI++;
-                    counterPlayer = 0;
-                } else {
-                    counterPlayer = 0;
-                    counterAI = 0;
-                }
-
-                if (counterPlayer == 4) {
-//                    System.out.println("vertical");
-                    return true;
-                } else if (counterAI == 4) {
-//                    System.out.println("vertical ai");
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public boolean checkDiagonal() {
-        // Sprawdź ukosy od lewej górnej do prawej dolnej
-        for (int i = 0; i < Connect4.numberOfRows - 3; i++) {
-            for (int j = 0; j < Connect4.numberOfColumns - 3; j++) {
-                if (this.board[i][j] == Connect4.Tokens.PLAYER.getToken() &&
-                        this.board[i + 1][j + 1] == Connect4.Tokens.PLAYER.getToken() &&
-                        this.board[i + 2][j + 2] == Connect4.Tokens.PLAYER.getToken() &&
-                        this.board[i + 3][j + 3] == Connect4.Tokens.PLAYER.getToken()) {
-                    return true;
-                } else if (this.board[i][j] == Connect4.Tokens.AI_PLAYER.getToken() &&
-                        this.board[i + 1][j + 1] == Connect4.Tokens.AI_PLAYER.getToken() &&
-                        this.board[i + 2][j + 2] == Connect4.Tokens.AI_PLAYER.getToken() &&
-                        this.board[i + 3][j + 3] == Connect4.Tokens.AI_PLAYER.getToken()) {
-                    return true;
-                }
-            }
-        }
-
-        // Sprawdź ukosy od lewej dolnej do prawej górnej
-        for (int i = 3; i < Connect4.numberOfRows; i++) {
-            for (int j = 0; j < Connect4.numberOfColumns - 3; j++) {
-                if (this.board[i][j] == Connect4.Tokens.PLAYER.getToken() &&
-                        this.board[i - 1][j + 1] == Connect4.Tokens.PLAYER.getToken() &&
-                        this.board[i - 2][j + 2] == Connect4.Tokens.PLAYER.getToken() &&
-                        this.board[i - 3][j + 3] == Connect4.Tokens.PLAYER.getToken()) {
-                    return true;
-                } else if (this.board[i][j] == Connect4.Tokens.AI_PLAYER.getToken() &&
-                        this.board[i - 1][j + 1] == Connect4.Tokens.AI_PLAYER.getToken() &&
-                        this.board[i - 2][j + 2] == Connect4.Tokens.AI_PLAYER.getToken() &&
-                        this.board[i - 3][j + 3] == Connect4.Tokens.AI_PLAYER.getToken()) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < numberOfRows; i++) {
             if (i == 0) {
                 sb.append("  ");
                 for (int j = 0; j < numberOfColumns; j++) {
-                    sb.append(String.valueOf(j)).append("   ");
+                    sb.append(j).append("   ");
                 }
                 sb.append("\n");
             }
