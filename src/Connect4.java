@@ -98,9 +98,9 @@ public class Connect4 extends GameStateImpl {
     }
 
     public int checkGameResult() {
-        if(countTokensInARow(Tokens.AI_PLAYER, 4) > 0) {
+        if(countTokensInARow(Tokens.AI_PLAYER, 4, true) == 1) {
             return -1;
-        } else if(countTokensInARow(Tokens.PLAYER, 4) > 0) {
+        } else if(countTokensInARow(Tokens.PLAYER, 4, true) == 1) {
             return 1;
         } else if(isBoardFull()) {
             return 2;
@@ -240,7 +240,7 @@ public class Connect4 extends GameStateImpl {
         return sb.toString();
     }
 
-    double countTokensInARow(Tokens playerToken, int length) {
+    double countTokensInARow(Tokens playerToken, int length, boolean firstOccuranceOnly) {
         int count = 0;
 
         // Sprawdzanie w poziomie
@@ -254,6 +254,9 @@ public class Connect4 extends GameStateImpl {
                     }
                 }
                 if (isMatch) {
+                    if (firstOccuranceOnly) {
+                        return 1;
+                    }
                     count++;
                 }
             }
@@ -270,6 +273,9 @@ public class Connect4 extends GameStateImpl {
                     }
                 }
                 if (isMatch) {
+                    if (firstOccuranceOnly) {
+                        return 1;
+                    }
                     count++;
                 }
             }
@@ -286,6 +292,9 @@ public class Connect4 extends GameStateImpl {
                     }
                 }
                 if (isMatch) {
+                    if (firstOccuranceOnly) {
+                        return 1;
+                    }
                     count++;
                 }
             }
@@ -302,6 +311,9 @@ public class Connect4 extends GameStateImpl {
                     }
                 }
                 if (isMatch) {
+                    if (firstOccuranceOnly) {
+                        return 1;
+                    }
                     count++;
                 }
             }

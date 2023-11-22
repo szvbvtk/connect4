@@ -20,12 +20,12 @@ public class Connect4Heuristic extends StateFunction {
             return Double.NEGATIVE_INFINITY;
         }
 
-        double playerThreeInARow = c4game.countTokensInARow(Connect4.Tokens.PLAYER, 3);
-        double aiThreeInARow = c4game.countTokensInARow(Connect4.Tokens.AI_PLAYER, 3);
-        double playerTwoInARow = c4game.countTokensInARow(Connect4.Tokens.PLAYER, 2);
-        double aiTwoInARow = c4game.countTokensInARow(Connect4.Tokens.AI_PLAYER, 2);
-        double playerOneInARow = c4game.countTokensInARow(Connect4.Tokens.PLAYER, 1);
-        double aiOneInARow = c4game.countTokensInARow(Connect4.Tokens.AI_PLAYER, 1);
+        double playerThreeInARow = c4game.countTokensInARow(Connect4.Tokens.PLAYER, 3, false);
+        double aiThreeInARow = c4game.countTokensInARow(Connect4.Tokens.AI_PLAYER, 3, false);
+        double playerTwoInARow = c4game.countTokensInARow(Connect4.Tokens.PLAYER, 2, false);
+        double aiTwoInARow = c4game.countTokensInARow(Connect4.Tokens.AI_PLAYER, 2, false);
+        double playerOneInARow = c4game.countTokensInARow(Connect4.Tokens.PLAYER, 1, false);
+        double aiOneInARow = c4game.countTokensInARow(Connect4.Tokens.AI_PLAYER, 1, false);
 
         score =  -((aiThreeInARow * 100) - (playerThreeInARow * 100) + (aiTwoInARow * 10) - (playerTwoInARow * 10) + (aiOneInARow) - (playerOneInARow));
         return score;
