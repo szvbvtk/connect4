@@ -1,5 +1,6 @@
 import sac.game.AlphaBetaPruning;
 import sac.game.GameSearchAlgorithm;
+import sac.game.GameSearchConfigurator;
 
 import java.util.Map;
 import java.util.Scanner;
@@ -9,41 +10,47 @@ public class Main {
         Connect4.setHFunction(new Connect4Heuristic());
         Connect4 c4game = Connect4.createGame();
 
-        if(c4game.isMaximizingTurnNow()) {
+        if (c4game.isMaximizingTurnNow()) {
             System.out.println(c4game);
         }
 
+        GameSearchConfigurator gsc = new GameSearchConfigurator();
+        gsc.setDepthLimit(5);
+
         GameSearchAlgorithm gsa = new AlphaBetaPruning();
         gsa.setInitial(c4game);
+        gsa.setConfigurator(gsc);
+
         int gameResult;
-        while( (gameResult = c4game.checkGameResult()) == 0) {
-            if(c4game.isMaximizingTurnNow()) {
+        while ((gameResult = c4game.checkGameResult()) == 0) {
+            if (c4game.isMaximizingTurnNow()) {
                 Scanner scanner = new Scanner(System.in);
                 int column;
                 do {
                     System.out.print("Your turn: ");
                     column = scanner.nextInt();
-                }while(!c4game.makeMove(column));
+                } while (!c4game.makeMove(column));
 
                 System.out.println(c4game);
             } else {
                 System.out.println("AI turn");
                 gsa.execute();
-                Map<String, Double> bestMoves = gsa.getMovesScores();
-                for (Map.Entry<String, Double> entry : bestMoves.entrySet())
-                    System.out.println(entry.getKey() + " -> " + entry.getValue());
-                String s = gsa.getFirstBestMove();
-                int aiMove = Integer.parseInt(s);
+                Map<String, Double> bestMovesList = gsa.getMovesScores();
+                for (Map.Entry<String, Double> entry : bestMovesList.entrySet()) {
+                    System.out.println(entry.getKey() + "=" + entry.getValue());
+                }
+
+                int aiMove = Integer.parseInt(gsa.getFirstBestMove());
                 c4game.makeMove(aiMove);
                 System.out.println(c4game);
             }
         }
 
-        if(gameResult == 1) {
-            System.out.println("Game over\nThe winner is: " + "Player");
-        }else if(gameResult == -1) {
-            System.out.println("Game over\nThe winner is: " + "AI");
-        } else {
+        if (gameResult == 1) {
+            System.out.println("Game over\nThe winner is: " + Connect4.Tokens.PLAYER.getToken());
+        } else if (gameResult == -1) {
+            System.out.println("Game over\nThe winner is: " + Connect4.Tokens.AI_PLAYER.getToken());
+        } else if (gameResult == 2) {
             System.out.println("Game over\nDraw");
         }
 

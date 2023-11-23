@@ -6,11 +6,12 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Connect4 extends GameStateImpl {
-    static public final int numberOfRows = 7;
-    static public final int numberOfColumns = 6;
+    static public final int numberOfRows = 6;
+    static public final int numberOfColumns = 7;
+    static public final int numberOfTokensRequiredToWin = 4;
     final char[][] board;
 
-    enum Tokens {
+    static enum Tokens {
         EMPTY('.'),
         PLAYER('O'),
         AI_PLAYER('X');
@@ -73,7 +74,7 @@ public class Connect4 extends GameStateImpl {
             row--;
         }
 
-        if (row > -1) {
+        if (row >= 0) {
             this.board[row][columnIndex] = maximizingTurnNow ? Tokens.PLAYER.getToken() : Tokens.AI_PLAYER.getToken();
             maximizingTurnNow = !maximizingTurnNow;
             return true;
@@ -98,20 +99,26 @@ public class Connect4 extends GameStateImpl {
     }
 
     public int checkGameResult() {
-        if(countTokensInARow(Tokens.AI_PLAYER, 4, true) == 1) {
-            return -1;
-        } else if(countTokensInARow(Tokens.PLAYER, 4, true) == 1) {
-            return 1;
-        } else if(isBoardFull()) {
+        if (isBoardFull() == true) {
             return 2;
-        }else{
-            return 0;
         }
+
+        int playerWinCheck = countSequences(Tokens.PLAYER.getToken(), numberOfTokensRequiredToWin, true);
+        if (playerWinCheck == 1) {
+            return 1;
+        }
+
+        int AIWInCheck = countSequences(Tokens.AI_PLAYER.getToken(), numberOfTokensRequiredToWin, true);
+        if (AIWInCheck == 1) {
+            return -1;
+        }
+
+        return 0;
     }
 
     public boolean isBoardFull() {
-        for(int i = 0; i < numberOfColumns; i++) {
-            if(board[0][i] == Tokens.EMPTY.getToken()) {
+        for (int i = 0; i < numberOfColumns; i++) {
+            if (board[0][i] == Tokens.EMPTY.getToken()) {
                 return false;
             }
         }
@@ -144,21 +151,20 @@ public class Connect4 extends GameStateImpl {
         return sb.toString();
     }
 
-    double countTokensInARow(Tokens playerToken, int length, boolean firstOccuranceOnly) {
+    int countSequences(char playerToken, int seqLength, boolean firstOccurrenceOnly) {
         int count = 0;
 
-        // Sprawdzanie w poziomie
         for (int i = 0; i < Connect4.numberOfRows; i++) {
-            for (int j = 0; j <= Connect4.numberOfColumns - length; j++) {
+            for (int j = 0; j <= Connect4.numberOfColumns - seqLength; j++) {
                 boolean isMatch = true;
-                for (int k = 0; k < length; k++) {
-                    if (this.board[i][j + k] != playerToken.getToken()) {
+                for (int k = 0; k < seqLength; k++) {
+                    if (this.board[i][j + k] != playerToken) {
                         isMatch = false;
                         break;
                     }
                 }
                 if (isMatch) {
-                    if (firstOccuranceOnly) {
+                    if (firstOccurrenceOnly) {
                         return 1;
                     }
                     count++;
@@ -166,18 +172,18 @@ public class Connect4 extends GameStateImpl {
             }
         }
 
-        // Sprawdzanie w pionie
-        for (int i = 0; i <= Connect4.numberOfRows - length; i++) {
+
+        for (int i = 0; i <= Connect4.numberOfRows - seqLength; i++) {
             for (int j = 0; j < Connect4.numberOfColumns; j++) {
                 boolean isMatch = true;
-                for (int k = 0; k < length; k++) {
-                    if (this.board[i + k][j] != playerToken.getToken()) {
+                for (int k = 0; k < seqLength; k++) {
+                    if (this.board[i + k][j] != playerToken) {
                         isMatch = false;
                         break;
                     }
                 }
                 if (isMatch) {
-                    if (firstOccuranceOnly) {
+                    if (firstOccurrenceOnly) {
                         return 1;
                     }
                     count++;
@@ -185,18 +191,17 @@ public class Connect4 extends GameStateImpl {
             }
         }
 
-        // Sprawdzanie na ukos
-        for (int i = 0; i <= Connect4.numberOfRows - length; i++) {
-            for (int j = 0; j <= Connect4.numberOfColumns - length; j++) {
+        for (int i = 0; i <= Connect4.numberOfRows - seqLength; i++) {
+            for (int j = 0; j <= Connect4.numberOfColumns - seqLength; j++) {
                 boolean isMatch = true;
-                for (int k = 0; k < length; k++) {
-                    if (this.board[i + k][j + k] != playerToken.getToken()) {
+                for (int k = 0; k < seqLength; k++) {
+                    if (this.board[i + k][j + k] != playerToken) {
                         isMatch = false;
                         break;
                     }
                 }
                 if (isMatch) {
-                    if (firstOccuranceOnly) {
+                    if (firstOccurrenceOnly) {
                         return 1;
                     }
                     count++;
@@ -204,18 +209,18 @@ public class Connect4 extends GameStateImpl {
             }
         }
 
-        // Sprawdzanie na ukos (odwrotnie)
-        for (int i = length - 1; i < Connect4.numberOfRows; i++) {
-            for (int j = 0; j <= Connect4.numberOfColumns - length; j++) {
+
+        for (int i = seqLength - 1; i <= Connect4.numberOfRows - 1; i++) {
+            for (int j = 0; j <= Connect4.numberOfColumns - seqLength; j++) {
                 boolean isMatch = true;
-                for (int k = 0; k < length; k++) {
-                    if (this.board[i - k][j + k] != playerToken.getToken()) {
+                for (int k = 0; k < seqLength; k++) {
+                    if (this.board[i - k][j + k] != playerToken) {
                         isMatch = false;
                         break;
                     }
                 }
                 if (isMatch) {
-                    if (firstOccuranceOnly) {
+                    if (firstOccurrenceOnly) {
                         return 1;
                     }
                     count++;
@@ -230,7 +235,3 @@ public class Connect4 extends GameStateImpl {
         return this.toString().hashCode();
     }
 }
-
-//do zrobienia zad 3.1 strona 72 w pdf
-//w konstruktorze kopiujacym kopiowac flage maximizingturnnow
-//heurystyka czy wygrany zwracac + i - nieskonczonosc
