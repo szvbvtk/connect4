@@ -15,7 +15,7 @@ public class Main {
         }
 
         GameSearchConfigurator gsc = new GameSearchConfigurator();
-        gsc.setDepthLimit(5);
+        gsc.setDepthLimit(6);
 
         GameSearchAlgorithm gsa = new AlphaBetaPruning();
         gsa.setInitial(c4game);
@@ -33,8 +33,8 @@ public class Main {
 
                 System.out.println(c4game);
             } else {
-                System.out.println("AI turn");
                 gsa.execute();
+                System.out.println("AI turn");
                 Map<String, Double> bestMovesList = gsa.getMovesScores();
                 for (Map.Entry<String, Double> entry : bestMovesList.entrySet()) {
                     System.out.println(entry.getKey() + "=" + entry.getValue());

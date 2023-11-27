@@ -156,14 +156,14 @@ public class Connect4 extends GameStateImpl {
 
         for (int i = 0; i < Connect4.numberOfRows; i++) {
             for (int j = 0; j <= Connect4.numberOfColumns - seqLength; j++) {
-                boolean isMatch = true;
+                boolean found = true;
                 for (int k = 0; k < seqLength; k++) {
                     if (this.board[i][j + k] != playerToken) {
-                        isMatch = false;
+                        found = false;
                         break;
                     }
                 }
-                if (isMatch) {
+                if (found) {
                     if (firstOccurrenceOnly) {
                         return 1;
                     }
@@ -175,14 +175,14 @@ public class Connect4 extends GameStateImpl {
 
         for (int i = 0; i <= Connect4.numberOfRows - seqLength; i++) {
             for (int j = 0; j < Connect4.numberOfColumns; j++) {
-                boolean isMatch = true;
+                boolean found = true;
                 for (int k = 0; k < seqLength; k++) {
                     if (this.board[i + k][j] != playerToken) {
-                        isMatch = false;
+                        found = false;
                         break;
                     }
                 }
-                if (isMatch) {
+                if (found) {
                     if (firstOccurrenceOnly) {
                         return 1;
                     }
@@ -193,14 +193,14 @@ public class Connect4 extends GameStateImpl {
 
         for (int i = 0; i <= Connect4.numberOfRows - seqLength; i++) {
             for (int j = 0; j <= Connect4.numberOfColumns - seqLength; j++) {
-                boolean isMatch = true;
+                boolean found = true;
                 for (int k = 0; k < seqLength; k++) {
                     if (this.board[i + k][j + k] != playerToken) {
-                        isMatch = false;
+                        found = false;
                         break;
                     }
                 }
-                if (isMatch) {
+                if (found) {
                     if (firstOccurrenceOnly) {
                         return 1;
                     }
@@ -210,16 +210,16 @@ public class Connect4 extends GameStateImpl {
         }
 
 
-        for (int i = seqLength - 1; i <= Connect4.numberOfRows - 1; i++) {
+        for (int i = seqLength - 1; i < Connect4.numberOfRows; i++) {
             for (int j = 0; j <= Connect4.numberOfColumns - seqLength; j++) {
-                boolean isMatch = true;
+                boolean found = true;
                 for (int k = 0; k < seqLength; k++) {
                     if (this.board[i - k][j + k] != playerToken) {
-                        isMatch = false;
+                        found = false;
                         break;
                     }
                 }
-                if (isMatch) {
+                if (found) {
                     if (firstOccurrenceOnly) {
                         return 1;
                     }

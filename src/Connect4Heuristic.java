@@ -6,9 +6,10 @@ public class Connect4Heuristic extends StateFunction {
     public double calculate(State state) {
         Connect4 c4game = (Connect4) state;
 
-        if (c4game.checkGameResult() != 0 && !c4game.isMaximizingTurnNow()) {
+        int gameResult = c4game.checkGameResult();
+        if (gameResult != 0 && !c4game.isMaximizingTurnNow()) {
             return Double.POSITIVE_INFINITY;
-        } else if (c4game.checkGameResult() != 0 && c4game.isMaximizingTurnNow()) {
+        } else if (gameResult != 0 && c4game.isMaximizingTurnNow()) {
             return Double.NEGATIVE_INFINITY;
         }
 
